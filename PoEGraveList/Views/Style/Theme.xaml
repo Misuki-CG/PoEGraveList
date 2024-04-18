@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="lightShades"></Color>
+    <Color x:Key="lightAccent"></Color>
+    <Color x:Key="mainBrandColor"></Color>
+    <Color x:Key="darkAccent"></Color>
+    <Color x:Key="darkShades"></Color>
+
+    <SolidColorBrush x:Key="textColor" Color="AliceBlue"/>
+    <SolidColorBrush x:Key="btnTextColor" Color="Aqua"/>
+    <SolidColorBrush x:Key="btnBackgroundColor" Color="Azure"/>
+
+</ResourceDictionary>
