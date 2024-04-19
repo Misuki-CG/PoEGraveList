@@ -26,5 +26,7 @@ namespace PoEGraveList.Commands
         {
             this._executeAction(parameter);
         }
+
+     
     }
 }

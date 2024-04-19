@@ -12,11 +12,15 @@ namespace PoEGraveList.Models
     {
         public string Name { get; set; }
         public GameAttributeType Type { get; set; }
+        public int Amount { get; set; }
+        public GameAttributeLevel Level { get; set; }
 
         public GameAttribute(GameAttributeType type)
         {
             Type = type;
             Name = Enum.GetName(type) ?? "Undefined";
+            Amount = 0;
+            Level = GameAttributeLevel.Increased;
         }
 
 
