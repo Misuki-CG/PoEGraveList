@@ -4,9 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PoEGraveList"
+        xmlns:ViewModel="clr-namespace:PoEGraveList.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <ViewModel:MainWindowViewModel/>
+    </Window.DataContext>
     <Grid>
-        
+        <TextBox  HorizontalAlignment="Left" Margin="40,105,0,0" TextWrapping="NoWrap" Text="{Binding TypedUrl}" VerticalAlignment="Top" Width="507"/>
+        <Button Command="{Binding LoadCommand}" Content="Button" HorizontalAlignment="Left" Margin="574,103,0,0" VerticalAlignment="Top" Width="126"/>
+
     </Grid>
 </Window>
