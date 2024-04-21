@@ -85,7 +85,7 @@ namespace PoEGraveList.Core.Shop
                     TotalAmount = amount,
                     IsUpValue = isUpValue
                 };
-
+                
                 output.Add(item);
 
             }
