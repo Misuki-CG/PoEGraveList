@@ -52,12 +52,15 @@ namespace PoEGraveList.Core.Shop
                 JProperty prop = (JProperty)token.Value["0"].First();
                 int amount = int.Parse(prop.Value.ToString());
                 bool isUpValue = int.Parse(prop.Name) >= 0;
-                return new ShopItem()
+                ShopItem item = new ShopItem()
                 {
                     Attribute = AttributeCreator.Instance.FromKey(token.Key),
                     TotalAmount = amount,
                     IsUpValue = isUpValue
                 };
+
+                
+                return item;
             }
 
             return null;
@@ -85,11 +88,14 @@ namespace PoEGraveList.Core.Shop
                     TotalAmount = amount,
                     IsUpValue = isUpValue
                 };
+
                 
                 output.Add(item);
 
             }
             return [.. output];
         }
+
+       
     }
 }

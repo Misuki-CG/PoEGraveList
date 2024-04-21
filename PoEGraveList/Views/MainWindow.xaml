@@ -17,34 +17,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock>
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text">
-                                        <Setter.Value>
-                                            <MultiBinding StringFormat="{}{0} modifiers are {1}% scarcer">
-                                                <Binding Path="Attribute.Name"/>
-                                                <Binding Path="Attribute.ValueDown"/>
-                                            </MultiBinding>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <DataTrigger Value="True">
-                                            <DataTrigger.Binding>
-                                                <Binding Path="IsUpValue"/>
-                                            </DataTrigger.Binding>
-                                            <Setter Property="Text">
-                                                <Setter.Value>
-                                                    <MultiBinding StringFormat="{}{0}% increased chance of {1} modifiers">
-                                                        <Binding Path="Attribute.ValueUp"/>
-                                                        <Binding Path="Attribute.Name"/>
-                                                    </MultiBinding>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
+                        <TextBlock Text="{Binding Attribute.Description}">
                         </TextBlock>
                         <TextBlock>
                             <TextBlock.Text>

@@ -63,7 +63,35 @@ namespace PoEGraveList.ViewModels
 
         private void loadQuery()
         {
-            this.WeightList = ShopItemCreator.FromLink(this.TypedUrl);
+            ShopItem[] shopItems = ShopItemCreator.FromLink(this.TypedUrl);
+            foreach(ShopItem item in shopItems)
+            {
+                switch (item.Attribute.Key)
+                {
+                    case "tiers":
+                        item.Attribute.SetAttributeDescription($"+{item.Attribute.ValueUp} Modifier Tier Rating");
+                        break;
+                    case "prefix":
+                        item.Attribute.SetAttributeDescription($"{item.Attribute.ValueUp}% increased chance for Prefix Modifiers");
+                        break;
+                    case "suffix":
+                        item.Attribute.SetAttributeDescription($"{item.Attribute.ValueUp}% increased chance for Suffix Modifiers");
+                        break;
+                    case "explicit":
+                        item.Attribute.SetAttributeDescription($"+{item.Attribute.ValueUp} Explicit modifiers");
+                        break;
+                    case "haunted":
+                        item.Attribute.SetAttributeDescription($"Armor can roll Haunted modifiers, {item.Attribute.ValueUp}% increased chance of Haunted Modifiers");
+                        break;
+                    default:
+                        item.Attribute.SetAttributeDescription(item.IsUpValue);
+                        break;
+                }
+            }
+
+            this.WeightList = shopItems;
         }
+
+       
     }
 }

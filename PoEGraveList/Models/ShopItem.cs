@@ -12,5 +12,7 @@ namespace PoEGraveList.Models
         public int TotalAmount { get; set; }
         public bool IsUpValue { get; set; }
         public int CurrentAmount { get; init; } = 0;
+
+
     }
 }

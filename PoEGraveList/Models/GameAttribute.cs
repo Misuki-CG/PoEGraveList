@@ -16,5 +16,16 @@ namespace PoEGraveList.Models
         public int ValueUp { get; set; }
         public int ValueDown { get; set; }
 
+        internal void SetAttributeDescription(bool isUpValue)
+        {
+            this.Description = isUpValue ?
+                $"{ValueUp}% increased chance of {Name} modifiers" :
+                $"{Name} modifiers are {ValueDown}% scarcer";
+        }
+
+        internal void SetAttributeDescription(string description)
+        {
+            this.Description = description;
+        }
     }
 }
