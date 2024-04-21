@@ -15,6 +15,14 @@ namespace PoEGraveList.Commands
         public BaseCommand(Action<object?> executeAction)
         {
             this._executeAction = executeAction;
+            if (CanExecuteChanged != null)
+            {
+                CanExecuteChanged += onCanExecuteChanged;
+            }
+        }
+
+        private void onCanExecuteChanged(object? sender, EventArgs e)
+        {
         }
 
         public bool CanExecute(object? parameter)

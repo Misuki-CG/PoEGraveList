@@ -1,53 +1,48 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PoEGraveList.Core.Misc;
 using PoEGraveList.Models;
-using PoEGraveList.Models.Types;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PoEGraveList.Core.Attribute
 {
-    public static class AttributeCreator
+    public class AttributeCreator
     {
-        public static GameAttribute FromKeyPair(KeyValuePair<string, JToken?> attributeKeyPair)
+        private static AttributeCreator _instance = null!;
+        public static AttributeCreator Instance
         {
-            GameAttributeType attributeType = Enum.Parse<GameAttributeType>(attributeKeyPair.Key);
-            GameAttribute attribute = new GameAttribute(attributeType);
-            if(attributeKeyPair.Value != null)
+            get
             {
-                JProperty? pairValue = attributeKeyPair.Value.First as JProperty;
-                if(pairValue != null)
-                {
-                    attribute.Level = Enum.Parse<GameAttributeLevel>(pairValue.Name);
-                    attribute.Amount = int.Parse(pairValue.Value.ToString());
-                }
+                if(_instance == null)
+                    _instance = new AttributeCreator();
+                return _instance;
             }
-            return attribute;
         }
 
-        public static GameAttribute[] FromJObject(JObject attributeObj)
+        private List<GameAttribute> attributeConfig;
+        private AttributeCreator()
         {
-            List<GameAttribute> attributeList = new List<GameAttribute>();
-            foreach(KeyValuePair<string, JToken?> pair in attributeObj)
-            {
-                attributeList.Add(AttributeCreator.FromKeyPair(pair));
-            }
-
-            return attributeList.ToArray();
+            this.attributeConfig = new List<GameAttribute>();
+            this.initAttributeList();
         }
-        
-        public static GameAttribute[] FromLink(string queryLink)
+        public GameAttribute FromKey(string key)
         {
-            JObject rootToken = RawQueryHelper.GetTokenFromUrl(queryLink, "gvc");
-            JObject? weightToken = rootToken.Value<JObject>("weight");
-
-            if (weightToken == null) return [];
-
-            GameAttribute[] weightList = AttributeCreator.FromJObject(weightToken);
-            return weightList;
+            return this.attributeConfig.First((attribute) => attribute.Key == key);
         }
+
+        private void initAttributeList()
+        {
+            GameAttribute[]? attributes = JsonConvert.DeserializeObject<GameAttribute[]>(File.ReadAllText("./itemConfig.json"));
+            if (attributes == null) throw new Exception("Can't read attributes from file.");
+
+            this.attributeConfig.AddRange(attributes);
+        }
+      
     }
 }

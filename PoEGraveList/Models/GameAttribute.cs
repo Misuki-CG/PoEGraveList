@@ -1,5 +1,4 @@
-﻿using PoEGraveList.Models.Types;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,20 +9,12 @@ namespace PoEGraveList.Models
 {
     public class GameAttribute
     {
-        public string Name { get; set; }
-        public GameAttributeType Type { get; set; }
-        public int Amount { get; set; }
-        public GameAttributeLevel Level { get; set; }
-
-        public GameAttribute(GameAttributeType type)
-        {
-            Type = type;
-            Name = Enum.GetName(type) ?? "Undefined";
-            Amount = 0;
-            Level = GameAttributeLevel.Increased;
-        }
-
-
+   
+        public required string Key { get; set; }
+        public required string Name { get; set; }
+        public required string Description { get; set; }
+        public int ValueUp { get; set; }
+        public int ValueDown { get; set; }
 
     }
 }

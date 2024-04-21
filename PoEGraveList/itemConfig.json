@@ -1,0 +1,156 @@
+[
+  {
+    "key": "1",
+    "name": "Life",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "2",
+    "name": "Mana",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "3",
+    "name": "Attack",
+    "description": "",
+    "valueUp": 300,
+    "valueDown": 150
+  },
+  {
+    "key": "4",
+    "name": "Defences",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "5",
+    "name": "Physical",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "6",
+    "name": "Fire",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "7",
+    "name": "Cold",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "8",
+    "name": "Lightning",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "13",
+    "name": "Caster",
+    "description": "",
+    "valueUp": 300,
+    "valueDown": 150
+  },
+  {
+    "key": "14",
+    "name": "Speed",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "15",
+    "name": "Minion",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 0
+  },
+  {
+    "key": "16",
+    "name": "Chaos",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "20",
+    "name": "Elemental",
+    "description": "",
+    "valueUp": 300,
+    "valueDown": 150
+  },
+  {
+    "key": "29",
+    "name": "Critical",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "31",
+    "name": "Attribute",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "34",
+    "name": "Gem",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "35",
+    "name": "Resistance",
+    "description": "",
+    "valueUp": 500,
+    "valueDown": 300
+  },
+  {
+    "key": "tiers",
+    "name": "Tiers",
+    "description": "",
+    "valueUp": 50,
+    "valueDown": 0
+  },
+  {
+    "key": "prefix",
+    "name": "Prefix",
+    "description": "",
+    "valueUp": 300,
+    "valueDown": 0
+  },
+  {
+    "key": "suffix",
+    "name": "Suffix",
+    "description": "",
+    "valueUp": 300,
+    "valueDown": 0
+  },
+  {
+    "key": "explicit",
+    "name": "Explicit",
+    "description": "",
+    "valueUp": 1,
+    "valueDown": 0
+  },
+  {
+    "key": "haunted",
+    "name": "Haunted",
+    "description": "",
+    "valueUp": 150,
+    "valueDown": 0
+  }
+]

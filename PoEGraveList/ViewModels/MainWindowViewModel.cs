@@ -1,5 +1,5 @@
 ﻿using PoEGraveList.Commands;
-using PoEGraveList.Core.Attribute;
+using PoEGraveList.Core.Shop;
 using PoEGraveList.Models;
 using System;
 using System.Collections.Generic;
@@ -14,9 +14,9 @@ namespace PoEGraveList.ViewModels
     {
         private string _typedUrl;
         private ICommand _loadCommand;
-        private GameAttribute[] _weightList;
+        private ShopItem[] _weightList;
 
-        public GameAttribute[] WeightList
+        public ShopItem[] WeightList
         {
             get
             {
@@ -63,7 +63,7 @@ namespace PoEGraveList.ViewModels
 
         private void loadQuery()
         {
-            this.WeightList = AttributeCreator.FromLink(this.TypedUrl);
+            this.WeightList = ShopItemCreator.FromLink(this.TypedUrl);
         }
     }
 }
