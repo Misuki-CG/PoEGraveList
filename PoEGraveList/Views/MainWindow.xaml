@@ -13,6 +13,24 @@
     <Grid>
         <TextBox  HorizontalAlignment="Left" Margin="40,105,0,0" TextWrapping="NoWrap" Text="{Binding TypedUrl}" VerticalAlignment="Top" Width="507"/>
         <Button Command="{Binding LoadCommand}" Content="Button" HorizontalAlignment="Left" Margin="574,103,0,0" VerticalAlignment="Top" Width="126"/>
-
+        <ListBox ItemsSource="{Binding WeightList}" Margin="0,171,0,0" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Attribute.Name}"/>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} / {1}">
+                                    <Binding Path="CurrentAmount"/>
+                                    <Binding Path="TotalAmount"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                   
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    
     </Grid>
 </Window>

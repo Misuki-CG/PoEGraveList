@@ -55,7 +55,7 @@ namespace PoEGraveList.Core.Shop
                 return new ShopItem()
                 {
                     Attribute = AttributeCreator.Instance.FromKey(token.Key),
-                    Amount = amount,
+                    TotalAmount = amount,
                     IsUpValue = isUpValue
                 };
             }
@@ -82,7 +82,7 @@ namespace PoEGraveList.Core.Shop
                 ShopItem item = new ShopItem()
                 {
                     Attribute = AttributeCreator.Instance.FromKey(attributeKey),
-                    Amount = amount,
+                    TotalAmount = amount,
                     IsUpValue = isUpValue
                 };
 

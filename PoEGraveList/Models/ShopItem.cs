@@ -9,7 +9,8 @@ namespace PoEGraveList.Models
     public class ShopItem
     {
         public required GameAttribute Attribute { get; set; }
-        public int Amount { get; set; }
+        public int TotalAmount { get; set; }
         public bool IsUpValue { get; set; }
+        public int CurrentAmount { get; init; } = 0;
     }
 }
