@@ -10,10 +10,14 @@
 
   <ItemGroup>
     <None Remove="itemConfig.json" />
+    <None Remove="queryHistory.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="itemConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="queryHistory.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

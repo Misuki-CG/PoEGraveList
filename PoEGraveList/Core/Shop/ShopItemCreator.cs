@@ -49,7 +49,7 @@ namespace PoEGraveList.Core.Shop
 
             if (token.Value != null && token.Value["0"] != null)
             {
-                JProperty prop = (JProperty)token.Value["0"].First();
+                JProperty prop = (JProperty)token.Value["0"]!.First();
                 int amount = int.Parse(prop.Value.ToString());
                 bool isUpValue = int.Parse(prop.Name) >= 0;
                 ShopItem item = new ShopItem()
