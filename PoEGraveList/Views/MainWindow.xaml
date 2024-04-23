@@ -11,8 +11,19 @@
         <ViewModel:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-        <TextBox  HorizontalAlignment="Left" Margin="40,105,0,0" TextWrapping="NoWrap" Text="{Binding TypedUrl}" VerticalAlignment="Top" Width="507"/>
-        <Button Command="{Binding LoadCommand}" Content="Button" HorizontalAlignment="Left" Margin="574,103,0,0" VerticalAlignment="Top" Width="126"/>
+        <TextBox  HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="NoWrap" Text="{Binding TypedUrl}" VerticalAlignment="Top" Width="507"/>
+        <Button Command="{Binding LoadCommand}" Content="Button" HorizontalAlignment="Left" Margin="532,0,0,0" VerticalAlignment="Top" Width="126"/>
+        <ListBox ItemsSource="{Binding ShopHistories}" Margin="0,25,0,266">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding QueryDate}"/>
+                        <TextBlock Text="{Binding Id}"/>
+                        <TextBlock Text="{Binding ShopItems.Length}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <ListBox ItemsSource="{Binding WeightList}" Margin="0,171,0,0" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -28,10 +39,10 @@
                             </TextBlock.Text>
                         </TextBlock>
                     </StackPanel>
-                   
+
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-    
+
     </Grid>
 </Window>
