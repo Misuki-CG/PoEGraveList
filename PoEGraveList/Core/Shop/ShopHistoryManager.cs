@@ -17,14 +17,6 @@ namespace PoEGraveList.Core.Shop
         private IEnumerable<ShopHistory> _fullHistory;
         private FileAsyncHelper _fileHelper;
 
-        public ShopHistory[] FullHistory
-        {
-            get
-            {
-                return this._fullHistory.ToArray();
-            }
-        }
-
         public ShopHistoryManager() 
         {
             this._fullHistory = [];
@@ -35,19 +27,35 @@ namespace PoEGraveList.Core.Shop
          
         }
 
-        public async void CreateFromShopItems(ShopItem[] items)
+        public ShopHistory CreateFromShopItems(ShopItem[] items)
         {
             DateTime nowDateTime = DateTime.Now;
+            int lastId = _fullHistory.Count() > 0 ? _fullHistory.OrderByDescending((item) => item.Id).First().Id + 1 : 0;
             ShopHistory history = new ShopHistory()
             {
-                Id = _fullHistory.Count(),
+                Id = lastId,
                 ShopItems = items,
                 ShopName = $"Query ({nowDateTime.ToString("en-US")})",
                 QueryDate = nowDateTime
             };
 
             this._fullHistory = [history, .. this._fullHistory];
-            await _fileHelper.Overwrite(JsonConvert.SerializeObject(this._fullHistory));
+            _ = _fileHelper.Overwrite(JsonConvert.SerializeObject(this._fullHistory));
+
+            return history;
+        }
+
+        public ShopHistory[] GetOrderedHistory()
+        {
+            return this._fullHistory.OrderByDescending((item) => item.QueryDate).ToArray();
+        }
+
+        public void DeleteHistory(ShopHistory? selectedHistory)
+        {
+            if (selectedHistory == null) return;
+
+            this._fullHistory = this._fullHistory.Where((item) => item.Id != selectedHistory.Id);
+            _ = _fileHelper.Overwrite(JsonConvert.SerializeObject(this._fullHistory));
         }
 
         private async Task<ShopHistory[]> retrieveSavedHistoric()
@@ -59,9 +67,6 @@ namespace PoEGraveList.Core.Shop
 
             return data;
         }
-
-       
-
 
     }
 }
