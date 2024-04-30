@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
+using PoEGraveList.Core.Misc.Implements;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,81 +14,149 @@ namespace PoEGraveList.Core.Misc
     public class FileAsyncHelper
     {
 
-        private FileStream _stream;
-        private SemaphoreSlim _sync;
+        private SemaphoreSlim _semaphore;
+
+        private string _path;
+        private AsyncQueue<FileActionWrapper> _queue;
+        private bool _isRunning;
+        
         public FileAsyncHelper(string path)
         {
-            this._stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            this._sync = new SemaphoreSlim(1); 
+            this._semaphore = new SemaphoreSlim(1, 1);
+            this._path = path;
+            this._queue = new AsyncQueue<FileActionWrapper>();
+            this._isRunning = false;
         }
 
-        public async Task Append(string content)
+        public void Append(string content)
         {
-            await _sync.WaitAsync();
-            try
-            {
-                byte[] buffer = Encoding.UTF8.GetBytes(content);
-                await this.writeAt(buffer, 0, SeekOrigin.End);  
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                _sync.Release();
-            }
+            this.addToQueue(content, FileWriteMode.Append);
         }
 
-
-        public async Task Overwrite(string content)
+        public void Overwrite(string content)
         {
-            await _sync.WaitAsync();
-            try
-            {
-                byte[] buffer = Encoding.UTF8.GetBytes(content);
-                await this.writeAt(buffer, 0, SeekOrigin.Begin);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                _sync.Release();
-            }
+            this.addToQueue(content, FileWriteMode.Overwrite);
         }
         public async Task<T?> ReadAsJson<T>() where T : class
         {
-            await _sync.WaitAsync();
-            T? objOutput = null;
+
+            T? outputObj = null;
             try
             {
-                _stream.Seek(0, SeekOrigin.End);
-                long fileLength = _stream.Position;
-                _stream.Seek(0, SeekOrigin.Begin);
-                byte[] buffer = new byte[fileLength];
-                int lengthRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
-                objOutput = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(buffer));
                 
+                while (this._isRunning)
+                    await Task.Delay(50);
+
+                string content = await readAllFile();
+                outputObj = JsonConvert.DeserializeObject<T>(content);
+                if (outputObj == null) throw new NullReferenceException("Content couldn't be deserialize");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine(ex.Message);
+            }
+
+         
+
+            return outputObj;
+           
+        }
+
+        private void addToQueue(string content, FileWriteMode mode)
+        {
+            this._queue.Enqueue(new FileActionWrapper() { Data = content, Mode = mode });
+
+            if (!this._isRunning)
+            {
+                this._isRunning = true;
+                _ = this.onOperationQueued();
+            }
+        }
+
+        private async Task onOperationQueued()
+        {
+            
+            try
+            {
+                while(this._queue.Count > 0)
+                {
+                    FileActionWrapper action = this._queue.Dequeue();
+                    switch (action.Mode)
+                    {
+                        case FileWriteMode.Overwrite:
+                            byte[] buffer = Encoding.UTF8.GetBytes(action.Data);
+                            await this.overwriteFile(buffer);
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
             finally
             {
-                _sync.Release();
+                this._isRunning = false;
+            }
+        }
+        private async Task overwriteFile(byte[] buffer)
+        {
+            await this._semaphore.WaitAsync();
+            using (FileStream _stream = new FileStream(this._path, FileMode.Open, FileAccess.Write))
+            {
+
+                _stream.SetLength(0);
+                await _stream.WriteAsync(buffer, 0, buffer.Length);
+                await _stream.FlushAsync();
+            }
+            this._semaphore.Release();
+
+        }
+
+        private async Task<string> readAllFile()
+        {
+            string output = String.Empty;
+            try
+            {
+                await this._semaphore.WaitAsync();
+                using (FileStream _stream = new FileStream(this._path, FileMode.Open, FileAccess.Read))
+                {
+                    _stream.Seek(0, SeekOrigin.End);
+                    int length = (int)_stream.Position;
+                    _stream.Seek(0, SeekOrigin.Begin);
+
+                    byte[] buffer = new byte[length];
+
+                    _stream.Read(buffer, 0, length);
+                    output = Encoding.UTF8.GetString(buffer);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                this._semaphore.Release();
             }
 
-            return objOutput;
-        }
+            return output;
+            
 
-        private async Task writeAt(byte[] buffer, int offset, SeekOrigin origin)
-        {
-            _stream.Seek(offset, origin);
-            await _stream.WriteAsync(buffer, 0, buffer.Length);
-            await _stream.FlushAsync();
+           
         }
+        
+        private class FileActionWrapper
+        {
+            public FileWriteMode Mode { get; set; }
+            public string Data { get; init; } = "";
+        }
+    }
+
+    public enum FileWriteMode
+    {
+        Append,
+        Overwrite,
     }
 }

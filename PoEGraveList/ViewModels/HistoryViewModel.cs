@@ -65,7 +65,7 @@ namespace PoEGraveList.ViewModels
         public void AddHistory(ShopItem[] items)
         {
             ShopHistory history = this._historyManager.CreateFromShopItems(items);
-            this.History = [history, .. this._history];
+            this.History = this._historyManager.GetOrderedHistory();
             this.SelectedHistory = history;
         }
 
@@ -73,6 +73,7 @@ namespace PoEGraveList.ViewModels
         {
             this._historyManager.DeleteHistory(this.SelectedHistory);
             this.History = this._historyManager.GetOrderedHistory();
+            this.SelectedHistory = this.History.Length > 0 ? this.History[0] : null;
             
         }
         

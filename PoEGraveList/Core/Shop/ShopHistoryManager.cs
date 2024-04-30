@@ -1,12 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PoEGraveList.Core.Misc;
 using PoEGraveList.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PoEGraveList.Core.Shop
 {
@@ -14,7 +8,7 @@ namespace PoEGraveList.Core.Shop
     {
         private static readonly string HistoryFilePath = "./queryHistory.json";
 
-        private IEnumerable<ShopHistory> _fullHistory;
+        private ShopHistory[] _fullHistory;
         private FileAsyncHelper _fileHelper;
 
         public ShopHistoryManager() 
@@ -40,7 +34,7 @@ namespace PoEGraveList.Core.Shop
             };
 
             this._fullHistory = [history, .. this._fullHistory];
-            _ = _fileHelper.Overwrite(JsonConvert.SerializeObject(this._fullHistory));
+            _fileHelper.Overwrite(JsonConvert.SerializeObject(this._fullHistory));
 
             return history;
         }
@@ -54,8 +48,9 @@ namespace PoEGraveList.Core.Shop
         {
             if (selectedHistory == null) return;
 
-            this._fullHistory = this._fullHistory.Where((item) => item.Id != selectedHistory.Id);
-            _ = _fileHelper.Overwrite(JsonConvert.SerializeObject(this._fullHistory));
+            this._fullHistory = [.. this._fullHistory.Where(item => item.Id != selectedHistory.Id)];
+            _fileHelper.Overwrite(JsonConvert.SerializeObject(this._fullHistory));
+         
         }
 
         private async Task<ShopHistory[]> retrieveSavedHistoric()
