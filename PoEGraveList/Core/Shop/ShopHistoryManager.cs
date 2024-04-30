@@ -53,6 +53,15 @@ namespace PoEGraveList.Core.Shop
          
         }
 
+        public void UpdateShopItem(ShopHistory selectedHistory, ShopItem selectedItem, bool isIncrement)
+        {
+
+            this._fullHistory.Single(h => h.Id == selectedHistory.Id)
+                .ShopItems.Single(i => i.Attribute.Key == selectedItem.Attribute.Key)
+                .CurrentAmount += isIncrement ? 1 : -1;
+
+
+        }
         private async Task<ShopHistory[]> retrieveSavedHistoric()
         {
             ShopHistory[]? data = await _fileHelper.ReadAsJson<ShopHistory[]>();

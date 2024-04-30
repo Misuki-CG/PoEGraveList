@@ -11,6 +11,7 @@ namespace PoEGraveList.Models
         public required GameAttribute Attribute { get; set; }
         public int TotalAmount { get; set; }
         public bool IsUpValue { get; set; }
-        public int CurrentAmount { get; init; } = 0;
+        public int CurrentAmount { get; set; } = 0;
+        
     }
 }
